@@ -106,13 +106,10 @@
   </header>
   <div class="container">
     <div id="setupPanel" class="setup-panel">
-      <h2>Connect to GitHub</h2>
-      <p>Enter your GitHub details to manage products.</p>
-      <div class="step"><h4>Step 1: Generate a GitHub Token</h4><p>Go to <a href="https://github.com/settings/tokens" target="_blank">github.com/settings/tokens</a> → Generate new token (classic) → Check <strong>repo</strong> → Generate.</p></div>
-      <div class="step"><h4>Step 2: Enter Details Below</h4><p>GitHub username and repo name.</p></div>
-      <div class="form-group"><label>GitHub Username</label><input type="text" id="ghUser" placeholder="e.g. john"></div>
-      <div class="form-group"><label>Repository Name</label><input type="text" id="ghRepo" placeholder="e.g. pmboutique"></div>
-      <div class="form-group"><label>GitHub Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
+      <h2>Connect to Admin</h2>
+      <p>Enter your Worker URL to manage products. No GitHub credentials needed in the browser.</p>
+      <div class="step"><h4>Worker URL</h4><p>Enter the Cloudflare Worker URL provided by your developer. It looks like:<br><code>https://pm-boutique-admin.YOURNAME.workers.dev</code></p></div>
+      <div class="form-group"><label>Worker URL</label><input type="text" id="workerUrl" placeholder="https://pm-boutique-admin.YOURNAME.workers.dev"></div>
       <button class="btn btn-primary" onclick="connectGitHub()">Connect</button>
     </div>
     <div id="dashboard" class="hidden">
@@ -187,7 +184,7 @@
   </div>
 
   <script>
-    var ghConfig={user:'',repo:'',token:''};
+    var ghConfig={workerUrl:''};
     var products=[];
     var currentFilter='all';
     var editDesigns=[];
@@ -224,26 +221,24 @@
     }
     function toB64(file){return new Promise(function(ok){if(!file){ok('');return}var r=new FileReader();r.onload=function(){var s=r.result;if(!s||s.indexOf(',')===-1){ok('');return}ok(s.split(',')[1])};r.onerror=function(){ok('')};r.readAsDataURL(file)})}
 
-    (function(){var s=localStorage.getItem('pm_admin_config');if(s){try{ghConfig=JSON.parse(s);document.getElementById('ghUser').value=ghConfig.user;document.getElementById('ghRepo').value=ghConfig.repo;document.getElementById('ghToken').value=ghConfig.token;connectGitHub()}catch(e){localStorage.removeItem('pm_admin_config')}}})();
+    (function(){var s=localStorage.getItem('pm_admin_config');if(s){try{ghConfig=JSON.parse(s);document.getElementById('workerUrl').value=ghConfig.workerUrl||'';connectGitHub()}catch(e){localStorage.removeItem('pm_admin_config')}}})();
 
     async function connectGitHub(){
-      ghConfig.user=document.getElementById('ghUser').value.trim();
-      ghConfig.repo=document.getElementById('ghRepo').value.trim();
-      ghConfig.token=document.getElementById('ghToken').value.trim();
-      if(!ghConfig.user||!ghConfig.repo||!ghConfig.token){showToast('Fill all fields','error');return}
+      ghConfig.workerUrl=document.getElementById('workerUrl').value.trim().replace(/\/$/,'');
+      if(!ghConfig.workerUrl){showToast('Enter Worker URL','error');return}
       showToast('Connecting...','info');
       try{
-        var res=await fetch('https://api.github.com/repos/'+ghConfig.user+'/'+ghConfig.repo,{headers:{'Authorization':'token '+ghConfig.token,'Accept':'application/vnd.github.v3+json'}});
-        if(!res.ok){showToast('GitHub '+res.status,'error');return}
+        var res=await fetch(ghConfig.workerUrl+'/api/connect');
+        if(!res.ok){showToast('Worker '+res.status,'error');return}
         var d=await res.json();
         if(d.full_name){localStorage.setItem('pm_admin_config',JSON.stringify(ghConfig));document.getElementById('statusBadge').textContent='Connected: '+d.full_name;document.getElementById('statusBadge').classList.add('connected');document.getElementById('setupPanel').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');showToast('Connected!','success');await loadProducts()}
+        else if(d.error){showToast(d.error,'error')}
       }catch(e){showToast('Failed: '+e.message,'error')}
     }
 
     async function ghAPI(method,endpoint,body){
-      var opts={method:method,headers:{'Authorization':'token '+ghConfig.token,'Accept':'application/vnd.github.v3+json'}};
-      if(body){opts.headers['Content-Type']='application/json';opts.body=JSON.stringify(body)}
-      var res=await fetch('https://api.github.com/'+endpoint,opts);
+      var opts={method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({method:method,path:endpoint,body:body||null})};
+      var res=await fetch(ghConfig.workerUrl+'/api/github',opts);
       var t=await res.text();
       if(!res.ok){var m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error('GitHub '+res.status+': '+m)}
       try{return JSON.parse(t)}catch(e){return{}}

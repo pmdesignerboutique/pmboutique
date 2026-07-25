@@ -1,0 +1,7 @@
+name = "pm-boutique-admin"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+GH_USER = "chandrasekharsaiM"
+GH_REPO = "pmboutique"
