@@ -68,6 +68,31 @@ export default {
         return json({ ok: true, full_name: d.full_name }, 200, h);
       }
 
+      /* ===== Change password ===== */
+      if (path === '/api/change-password' && request.method === 'POST') {
+        var body = await request.json();
+        var oldPass = body.oldPassword || '';
+        var newPass = body.newPassword || '';
+        if (!oldPass || !newPass) return json({ error: 'Both fields required' }, 400, h);
+        if (oldPass !== env.API_KEY) return json({ error: 'Wrong current password' }, 401, h);
+        if (newPass.length < 6) return json({ error: 'Password must be at least 6 characters' }, 400, h);
+
+        var cfRes = await fetch(
+          'https://api.cloudflare.com/client/v4/accounts/' + env.CF_ACCOUNT_ID + '/workers/scripts/pm-boutique-admin/secrets',
+          {
+            method: 'PUT',
+            headers: {
+              'Authorization': 'Bearer ' + env.CF_API_TOKEN,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: 'API_KEY', text: newPass, type: 'secret_text' })
+          }
+        );
+        var cfData = await cfRes.json();
+        if (!cfData.success) return json({ error: 'Failed to update: ' + (cfData.errors[0] && cfData.errors[0].message || 'Unknown') }, 500, h);
+        return json({ ok: true, message: 'Password updated. Login again with new password.' }, 200, h);
+      }
+
       /* ===== Generic GitHub proxy ===== */
       if (path === '/api/github' && request.method === 'POST') {
         var body = await request.json();

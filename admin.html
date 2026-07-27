@@ -103,6 +103,7 @@
   <header class="admin-header">
     <h1><span>PM</span> Designer Boutique — Admin</h1>
     <span class="status" id="statusBadge">Not Connected</span>
+    <button class="btn btn-secondary btn-sm" id="logoutBtn" style="display:none" onclick="logout()">Logout</button>
   </header>
   <div class="container">
     <div id="setupPanel" class="setup-panel">
@@ -125,6 +126,9 @@
         </div>
       </div>
       <div class="products-grid" id="productsGrid"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <button class="btn btn-secondary btn-sm" onclick="openChangePassword()">Change Password</button>
+      </div>
       <div class="debug-log" id="debugLog"><h3>Activity Log</h3><div id="debugEntries"><div class="entry info">Admin loaded.</div></div></div>
     </div>
   </div>
@@ -161,6 +165,19 @@
   </div>
 
   <div class="toast" id="toast"></div>
+
+  <div class="modal-overlay" id="passwordModal">
+    <div class="modal" style="max-width:400px">
+      <h3>Change Password</h3>
+      <div class="form-group"><label>Current Password</label><input type="password" id="oldPass" placeholder="Current password"></div>
+      <div class="form-group"><label>New Password</label><input type="password" id="newPass" placeholder="Min 6 characters"></div>
+      <div class="form-group"><label>Confirm New Password</label><input type="password" id="confirmPass" placeholder="Repeat new password"></div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="document.getElementById('passwordModal').classList.remove('active')">Cancel</button>
+        <button class="btn btn-primary" id="changePassBtn" onclick="changePassword()">Update Password</button>
+      </div>
+    </div>
+  </div>
 
   <div class="deploy-overlay" id="deployOverlay">
     <div class="deploy-box">
@@ -224,6 +241,46 @@
 
     (function(){var s=localStorage.getItem('pm_admin_config');if(s){try{ghConfig=JSON.parse(s);document.getElementById('adminKey').value=ghConfig.apiKey||'';connectGitHub()}catch(e){localStorage.removeItem('pm_admin_config')}}})();
 
+    function openChangePassword(){
+      document.getElementById('oldPass').value='';
+      document.getElementById('newPass').value='';
+      document.getElementById('confirmPass').value='';
+      document.getElementById('passwordModal').classList.add('active');
+    }
+    async function changePassword(){
+      var oldP=document.getElementById('oldPass').value.trim();
+      var newP=document.getElementById('newPass').value.trim();
+      var confP=document.getElementById('confirmPass').value.trim();
+      if(!oldP||!newP||!confP){showToast('Fill all fields','error');return}
+      if(newP!==confP){showToast('Passwords don\'t match','error');return}
+      if(newP.length<6){showToast('Min 6 characters','error');return}
+      var btn=document.getElementById('changePassBtn');btn.textContent='Updating...';btn.disabled=true;
+      try{
+        var res=await fetch(WORKER_URL+'/api/change-password',{method:'POST',headers:{'Content-Type':'application/json','X-API-Key':ghConfig.apiKey},body:JSON.stringify({oldPassword:oldP,newPassword:newP})});
+        var d=await res.json();
+        if(!res.ok){showToast(d.error||'Failed','error');btn.textContent='Update Password';btn.disabled=false;return}
+        showToast('Password updated! Login again.','success');
+        ghConfig.apiKey='';localStorage.removeItem('pm_admin_config');
+        document.getElementById('passwordModal').classList.remove('active');
+        document.getElementById('statusBadge').textContent='Not Connected';
+        document.getElementById('statusBadge').classList.remove('connected');
+        document.getElementById('dashboard').classList.add('hidden');
+        document.getElementById('setupPanel').classList.remove('hidden');
+        document.getElementById('adminKey').value='';
+      }catch(e){showToast('Error: '+e.message,'error')}
+      btn.textContent='Update Password';btn.disabled=false;
+    }
+
+    function logout(){
+      ghConfig.apiKey='';localStorage.removeItem('pm_admin_config');
+      document.getElementById('statusBadge').textContent='Not Connected';
+      document.getElementById('statusBadge').classList.remove('connected');
+      document.getElementById('dashboard').classList.add('hidden');
+      document.getElementById('setupPanel').classList.remove('hidden');
+      document.getElementById('adminKey').value='';
+      document.getElementById('logoutBtn').style.display='none';
+    }
+
     async function connectGitHub(){
       ghConfig.apiKey=document.getElementById('adminKey').value.trim();
       if(!ghConfig.apiKey){showToast('Enter password','error');return}
@@ -232,7 +289,7 @@
         var res=await fetch(WORKER_URL+'/api/connect',{headers:{'X-API-Key':ghConfig.apiKey}});
         if(!res.ok){showToast('Wrong password','error');return}
         var d=await res.json();
-        if(d.full_name){localStorage.setItem('pm_admin_config',JSON.stringify(ghConfig));document.getElementById('statusBadge').textContent='Connected: '+d.full_name;document.getElementById('statusBadge').classList.add('connected');document.getElementById('setupPanel').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');showToast('Connected!','success');await loadProducts()}
+        if(d.full_name){localStorage.setItem('pm_admin_config',JSON.stringify(ghConfig));document.getElementById('statusBadge').textContent='Connected: '+d.full_name;document.getElementById('statusBadge').classList.add('connected');document.getElementById('setupPanel').classList.add('hidden');document.getElementById('dashboard').classList.remove('hidden');document.getElementById('logoutBtn').style.display='';showToast('Connected!','success');await loadProducts()}
         else if(d.error){showToast(d.error,'error')}
       }catch(e){showToast('Failed: '+e.message,'error')}
     }
