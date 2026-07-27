@@ -104,6 +104,8 @@ body.preloading {
 .preloader-logo-img {
   max-width: 120px;
   height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   animation: preloaderPulse 1s ease-in-out infinite;
 }
 

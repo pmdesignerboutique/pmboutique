@@ -138,6 +138,8 @@ body.preloading {
 .preloader-logo-img {
   max-width: 120px;
   height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
   animation: preloaderPulse 1s ease-in-out infinite;
 }
 
@@ -361,10 +363,10 @@ body.preloading {
 
 .logo-img {
   height: 50px;
-  width: 50px;
+  width: auto;
   display: block;
-  object-fit: cover;
-  border-radius: 50%;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .nav-links {

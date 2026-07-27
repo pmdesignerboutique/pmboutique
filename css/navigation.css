@@ -49,10 +49,10 @@
 
 .logo-img {
   height: 50px;
-  width: 50px;
+  width: auto;
   display: block;
-  object-fit: cover;
-  border-radius: 50%;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .nav-links {
