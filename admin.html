@@ -184,6 +184,7 @@
 
   <script>
     var WORKER_URL='https://pm-boutique-admin.pmdesignerboutique.workers.dev';
+    var GH_REPO_PATH='repos/pmdesignerboutique/pmboutique/contents/';
     var ghConfig={apiKey:''};
     var products=[];
     var currentFilter='all';
@@ -243,16 +244,16 @@
       if(!res.ok){var m=t;try{m=JSON.parse(t).message||t}catch(e){}throw new Error('GitHub '+res.status+': '+m)}
       try{return JSON.parse(t)}catch(e){return{}}
     }
-    async function getSHA(path){try{var f=await ghAPI('GET','repos/'+ghConfig.user+'/'+ghConfig.repo+'/contents/'+path);return f.sha}catch(e){return null}}
-    async function commitText(path,content,msg){var sha=await getSHA(path);var b={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:'main'};if(sha)b.sha=sha;return await ghAPI('PUT','repos/'+ghConfig.user+'/'+ghConfig.repo+'/contents/'+path,b)}
-    async function commitBin(path,b64,msg){var sha=await getSHA(path);var b={message:msg,content:b64,branch:'main'};if(sha)b.sha=sha;var r=await ghAPI('PUT','repos/'+ghConfig.user+'/'+ghConfig.repo+'/contents/'+path,b);if(!r||!r.commit)throw new Error('Upload failed: '+path);return r}
-    async function deleteFile(path,msg){var sha=await getSHA(path);if(!sha)return null;return await ghAPI('DELETE','repos/'+ghConfig.user+'/'+ghConfig.repo+'/contents/'+path,{message:msg,sha:sha,branch:'main'})}
+    async function getSHA(path){try{var f=await ghAPI('GET',GH_REPO_PATH+path);return f.sha}catch(e){return null}}
+    async function commitText(path,content,msg){var sha=await getSHA(path);var b={message:msg,content:btoa(unescape(encodeURIComponent(content))),branch:'main'};if(sha)b.sha=sha;return await ghAPI('PUT',GH_REPO_PATH+path,b)}
+    async function commitBin(path,b64,msg){var sha=await getSHA(path);var b={message:msg,content:b64,branch:'main'};if(sha)b.sha=sha;var r=await ghAPI('PUT',GH_REPO_PATH+path,b);if(!r||!r.commit)throw new Error('Upload failed: '+path);return r}
+    async function deleteFile(path,msg){var sha=await getSHA(path);if(!sha)return null;return await ghAPI('DELETE',GH_REPO_PATH+path,{message:msg,sha:sha,branch:'main'})}
     function imgPath(slug,di,ii){var ts=Date.now();return{jpg:'images/products/'+slug+'-'+ts+'-d'+di+'i'+ii+'.jpg',webp:'images/products/'+slug+'-'+ts+'-d'+di+'i'+ii+'.webp'}}
 
     async function loadProducts(){
       log('Loading products.json...');
       try{
-        var f=await ghAPI('GET','repos/'+ghConfig.user+'/'+ghConfig.repo+'/contents/data/products.json');
+        var f=await ghAPI('GET',GH_REPO_PATH+'data/products.json');
         var decoded=decodeURIComponent(escape(atob(f.content)));
         products=JSON.parse(decoded).products||[];
         renderProducts();
