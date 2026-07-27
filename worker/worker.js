@@ -1,23 +1,14 @@
-/*  PM Designer Boutique — GitHub API Proxy Worker
-    Stores GitHub token securely as a Worker Secret.
-    Frontend sends requests here; Worker forwards to GitHub API.
-    Env vars: GH_USER, GH_REPO
-    Secrets:  GH_TOKEN */
+/*  PM Designer Boutique — GitHub API Proxy Worker (Secured)
+    Env vars:  GH_USER, GH_REPO, ALLOWED_ORIGINS
+    Secrets:   GH_TOKEN, API_KEY */
 
-const ALLOWED_ORIGINS = [
-  'https://pmboutique3.pages.dev',
-  'http://localhost:8888',
-  'http://localhost:5000'
-];
+const VALID_METHODS = ['GET', 'PUT', 'DELETE'];
+const MAX_BODY_SIZE = 15 * 1024 * 1024;
+const ALLOWED_PATHS = /^repos\/[^/]+\/[^/]+\/contents\//;
 
-function corsHeaders(origin) {
-  var allow = ALLOWED_ORIGINS.indexOf(origin) !== -1 ? origin : ALLOWED_ORIGINS[0];
-  return {
-    'Access-Control-Allow-Origin': allow,
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400'
-  };
+function getOrigins(env) {
+  var raw = env.ALLOWED_ORIGINS || '';
+  return raw.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
 }
 
 function json(data, status, headers) {
@@ -27,13 +18,36 @@ function json(data, status, headers) {
   });
 }
 
+function corsHeaders(origin, env) {
+  var origins = getOrigins(env);
+  var allow = origins.indexOf(origin) !== -1 ? origin : origins[0] || '';
+  return {
+    'Access-Control-Allow-Origin': allow,
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-API-Key',
+    'Access-Control-Max-Age': '86400',
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'DENY'
+  };
+}
+
+function verifyApiKey(request, env) {
+  var key = request.headers.get('X-API-Key') || '';
+  if (!key || key !== env.API_KEY) return false;
+  return true;
+}
+
 export default {
   async fetch(request, env) {
     var origin = request.headers.get('Origin') || '';
-    var h = corsHeaders(origin);
+    var h = corsHeaders(origin, env);
 
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: h });
+    }
+
+    if (!verifyApiKey(request, env)) {
+      return json({ error: 'Unauthorized' }, 401, h);
     }
 
     var url = new URL(request.url);
@@ -57,11 +71,14 @@ export default {
       /* ===== Generic GitHub proxy ===== */
       if (path === '/api/github' && request.method === 'POST') {
         var body = await request.json();
-        var method = body.method || 'GET';
+        var method = (body.method || 'GET').toUpperCase();
         var ghPath = body.path || '';
         var ghBody = body.body || null;
 
         if (!ghPath) return json({ error: 'Missing path' }, 400, h);
+        if (VALID_METHODS.indexOf(method) === -1) return json({ error: 'Method not allowed' }, 405, h);
+        if (!ALLOWED_PATHS.test(ghPath)) return json({ error: 'Path not allowed' }, 403, h);
+        if (ghPath.indexOf(env.GH_USER) === -1) return json({ error: 'Repo mismatch' }, 403, h);
 
         var ghUrl = 'https://api.github.com/' + ghPath;
         var ghHeaders = {
@@ -71,10 +88,7 @@ export default {
         };
 
         var ghOpts = { method: method, headers: ghHeaders };
-        if (ghBody && (method === 'PUT' || method === 'POST' || method === 'PATCH')) {
-          ghHeaders['Content-Type'] = 'application/json';
-          ghOpts.body = JSON.stringify(ghBody);
-        } else if (ghBody && method === 'DELETE') {
+        if (ghBody && (method === 'PUT' || method === 'DELETE')) {
           ghHeaders['Content-Type'] = 'application/json';
           ghOpts.body = JSON.stringify(ghBody);
         }
@@ -84,16 +98,14 @@ export default {
 
         return new Response(text, {
           status: res.status,
-          headers: Object.assign(h, {
-            'Content-Type': 'application/json'
-          })
+          headers: Object.assign(h, { 'Content-Type': 'application/json' })
         });
       }
 
-      return json({ error: 'Not found', endpoints: ['/api/connect (GET)', '/api/github (POST)'] }, 404, h);
+      return json({ error: 'Not found' }, 404, h);
 
     } catch (e) {
-      return json({ error: e.message || 'Worker error' }, 500, h);
+      return json({ error: 'Worker error' }, 500, h);
     }
   }
 };
