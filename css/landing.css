@@ -18,6 +18,11 @@
   object-fit: cover;
   object-position: center top;
 }
+@media (min-width: 768px) {
+  .landing-hero-bg img {
+    object-position: center;
+  }
+}
 .landing-hero-overlay {
   position: absolute;
   inset: 0;
