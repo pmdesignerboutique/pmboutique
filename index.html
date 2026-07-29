@@ -567,7 +567,7 @@
   <script src="js/body-integrations.js"></script>
   <script src="js/footer-integrations.js"></script>
   <script>
-    !function(){var s=document.getElementById('heroSlider'),d=document.getElementById('heroDots'),p=s.querySelectorAll('.hero-slide'),c=0,n=p.length;if(n>1){for(var i=0;i<n;i++){var dot=document.createElement('span');dot.className='dot'+(i===0?' active':'');dot.dataset.index=i;dot.addEventListener('click',function(){go(parseInt(this.dataset.index))});d.appendChild(dot)}function go(i){p[c].classList.remove('active');d.children[c].classList.remove('active');c=i;p[c].classList.add('active');d.children[c].classList.add('active')}setInterval(function(){go((c+1)%n)},5e3)}}();
+    !function(){var s=document.getElementById('heroSlider'),d=document.getElementById('heroDots'),p=s.querySelectorAll('.hero-slide'),c=0,n=p.length;if(n>1){for(var i=0;i<n;i++){var dot=document.createElement('span');dot.className='dot'+(i===0?' active':'');dot.dataset.index=i;dot.addEventListener('click',function(){go(parseInt(this.dataset.index))});d.appendChild(dot)}function go(i){p[c].classList.remove('active');d.children[c].classList.remove('active');c=i;p[c].classList.add('active');d.children[c].classList.add('active')}setInterval(function(){go((c+1)%n)},3e3)}}();
   </script>
 </body>
 </html>
