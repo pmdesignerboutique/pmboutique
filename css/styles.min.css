@@ -1209,7 +1209,6 @@ body.preloading {
   object-fit: cover;
   object-position: center top;
 }
-@media (min-width: 768px){.landing-hero-bg img,.hero-slider img{object-position:center}}
 .hero-slider{position:absolute;inset:0}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
 .hero-slide.active{opacity:1}

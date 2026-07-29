@@ -19,12 +19,6 @@
   object-fit: cover;
   object-position: center top;
 }
-@media (min-width: 768px) {
-  .landing-hero-bg img,
-  .hero-slider img {
-    object-position: center;
-  }
-}
 .hero-slider {
   position: absolute;
   inset: 0;
