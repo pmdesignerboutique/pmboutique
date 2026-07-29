@@ -21,7 +21,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
   <link rel="preload" as="image" href="images/hero-bridal.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="css/styles.min.css?v=7">
+  <link rel="stylesheet" href="css/styles.min.css?v=8">
   <script src="js/head-integrations.js" defer></script>
 
   <script type="application/ld+json">
@@ -153,16 +153,31 @@
 
   <main>
 
-    <!-- Hero -->
+    <!-- Hero Slider -->
     <section class="landing-hero">
-      <div class="landing-hero-bg">
-        <picture>
-          <source media="(min-width: 768px)" srcset="images/hero-desktop.webp" type="image/webp">
-          <source srcset="images/hero-bridal.webp" type="image/webp">
-          <img src="images/hero-bridal.jpg" alt="PM Designer Boutique — Custom Blouse Stitching and Maggam Work in Visakhapatnam">
-        </picture>
+      <div class="hero-slider" id="heroSlider">
+        <div class="hero-slide active">
+          <picture>
+            <source media="(min-width: 768px)" srcset="images/hero-desktop.webp" type="image/webp">
+            <source srcset="images/hero-bridal.webp" type="image/webp">
+            <img src="images/hero-bridal.jpg" alt="PM Designer Boutique — Custom Blouse Designs">
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero-slide-2.webp" type="image/webp">
+            <img src="images/hero-slide-2.webp" alt="PM Designer Boutique — Bridal Collection">
+          </picture>
+        </div>
+        <div class="hero-slide">
+          <picture>
+            <source srcset="images/hero-slide-3.webp" type="image/webp">
+            <img src="images/hero-slide-3.webp" alt="PM Designer Boutique — Designer Wear">
+          </picture>
+        </div>
         <div class="landing-hero-overlay"></div>
       </div>
+      <div class="hero-slider-dots" id="heroDots"></div>
       <div class="landing-hero-content">
         <div class="landing-hero-badge">PM Designer Boutique</div>
         <h1 class="landing-hero-title">Designer Boutique in<br><em>Visakhapatnam</em></h1>
@@ -171,10 +186,6 @@
           <a href="https://wa.me/918520910746?text=Hi%20PM%20Designer%20Boutique!%20I%20am%20looking%20for%20a%20custom%20blouse%20design.%20I%20would%20like%20to%20know%20more%20about%20your%20services.%20Can%20you%20help%20me%3F" class="btn btn-primary" target="_blank" rel="noopener noreferrer" aria-label="Chat with PM Designer Boutique on WhatsApp">Book Consultation</a>
           <a href="womens.html" class="btn btn-outline btn-outline-light">View Collections</a>
         </div>
-      </div>
-      <div class="landing-hero-scroll">
-        <span>Scroll</span>
-        <div class="landing-hero-scroll-line"></div>
       </div>
     </section>
 
@@ -555,5 +566,8 @@
   <script src="js/scripts.min.js?v=20260717"></script>
   <script src="js/body-integrations.js"></script>
   <script src="js/footer-integrations.js"></script>
+  <script>
+    !function(){var s=document.getElementById('heroSlider'),d=document.getElementById('heroDots'),p=s.querySelectorAll('.hero-slide'),c=0,n=p.length;if(n>1){for(var i=0;i<n;i++){var dot=document.createElement('span');dot.className='dot'+(i===0?' active':'');dot.dataset.index=i;dot.addEventListener('click',function(){go(parseInt(this.dataset.index))});d.appendChild(dot)}function go(i){p[c].classList.remove('active');d.children[c].classList.remove('active');c=i;p[c].classList.add('active');d.children[c].classList.add('active')}setInterval(function(){go((c+1)%n)},5e3)}}();
+  </script>
 </body>
 </html>
