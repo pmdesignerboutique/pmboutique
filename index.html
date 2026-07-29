@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
-  <link rel="preload" as="image" href="images/hero-bridal.jpg?v=20260729" fetchpriority="high">
+  <link rel="preload" as="image" href="images/hero-bridal.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/styles.min.css?v=6">
   <script src="js/head-integrations.js" defer></script>
 
@@ -49,7 +49,7 @@
     "serviceType": ["Custom Blouse Stitching", "Maggam Work", "Aari Work", "Embroidery", "Blouse Alterations"],
     "priceRange": "₹₹",
     "openingHours": "Mo-Sa 10:00-19:00",
-    "image": "images/hero-bridal.jpg?v=20260729"
+    "image": "images/hero-bridal.webp"
   }
   </script>
   <script type="application/ld+json">
@@ -156,7 +156,10 @@
     <!-- Hero -->
     <section class="landing-hero">
       <div class="landing-hero-bg">
-        <img src="images/hero-bridal.jpg?v=20260729" alt="PM Designer Boutique — Custom Blouse Stitching and Maggam Work in Visakhapatnam">
+        <picture>
+          <source srcset="images/hero-bridal.webp" type="image/webp">
+          <img src="images/hero-bridal.jpg?v=20260729" alt="PM Designer Boutique — Custom Blouse Stitching and Maggam Work in Visakhapatnam">
+        </picture>
         <div class="landing-hero-overlay"></div>
       </div>
       <div class="landing-hero-content">
