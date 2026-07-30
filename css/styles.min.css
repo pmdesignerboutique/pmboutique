@@ -1191,7 +1191,7 @@ body.preloading {
 }
 /* Landing Hero */
 .landing-hero{position:relative;display:flex;flex-direction:column;align-items:center;background:#111}.landing-hero .landing-hero-content,.landing-hero .hero-slider-dots{opacity:0;transition:opacity .5s ease}.landing-hero.hero-ready .landing-hero-content,.landing-hero.hero-ready .hero-slider-dots{opacity:1}
-.hero-slider{position:relative;width:100%;max-width:1600px;margin:0 auto;background:#111;aspect-ratio:16/10}
+.hero-slider{position:relative;width:100%;margin:0 auto;background:#111;aspect-ratio:16/10}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
 .hero-slide.active{opacity:1}
 .hero-slide picture,.hero-slide img{display:block;width:100%;height:100%;object-fit:cover}
