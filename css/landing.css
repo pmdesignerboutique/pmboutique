@@ -634,6 +634,9 @@
 @media (max-width: 768px) {
   .landing-hero-actions { flex-direction: column; }
   .landing-hero-content { padding-top: 0; }
+  .hero-slider { min-height: 100vh; overflow: hidden; }
+  .hero-slide.active { position: relative; }
+  .hero-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .landing-intro-images { height: 320px; }
   .landing-services-grid { grid-template-columns: 1fr; }
   .embroidery-play-btn { width: 64px; height: 64px; }
