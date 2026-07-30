@@ -15,21 +15,18 @@
 .hero-slider {
   position: relative;
   width: 100%;
-  min-height: 60vh;
+  background: #111;
 }
 .hero-slide {
   display: none;
-  background-size: cover;
-  background-position: center;
 }
 .hero-slide.active {
   display: block;
-  min-height: inherit;
-  animation: fadeIn .5s ease;
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.hero-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .hero-slider-dots {
   position: absolute;
@@ -637,6 +634,9 @@
 @media (max-width: 768px) {
   .landing-hero-actions { flex-direction: column; }
   .landing-hero-content { padding-top: 0; }
+  .hero-slider { min-height: 100vh; overflow: hidden; }
+  .hero-slide.active { position: relative; }
+  .hero-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .landing-intro-images { height: 320px; }
   .landing-services-grid { grid-template-columns: 1fr; }
   .embroidery-play-btn { width: 64px; height: 64px; }
