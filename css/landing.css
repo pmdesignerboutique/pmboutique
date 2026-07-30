@@ -24,7 +24,7 @@
 }
 .hero-slide.active {
   display: block;
-  min-height: inherit;
+  min-height: 60vh;
   animation: fadeIn .5s ease;
 }
 @keyframes fadeIn {

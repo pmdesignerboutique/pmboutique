@@ -1193,7 +1193,7 @@ body.preloading {
 .landing-hero{position:relative;background:#111}.landing-hero .landing-hero-content,.landing-hero .hero-slider-dots{opacity:0;transition:opacity .5s ease}.landing-hero.hero-ready .landing-hero-content,.landing-hero.hero-ready .hero-slider-dots{opacity:1}
 .hero-slider{position:relative;width:100%;min-height:60vh}
 .hero-slide{display:none;background-size:cover;background-position:center}
-.hero-slide.active{display:block;min-height:inherit;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-slide.active{display:block;min-height:60vh;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .hero-slider-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:10px}
 .hero-slider-dots .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:background .3s}
 .hero-slider-dots .dot.active{background:#fff}
