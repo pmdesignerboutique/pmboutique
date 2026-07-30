@@ -1,28 +1,18 @@
 /* Landing Hero */
 .landing-hero {
   position: relative;
-  height: 100vh;
-  min-height: 600px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
   background: #111;
 }
-.landing-hero-bg {
-  position: absolute;
-  inset: 0;
-}
-.landing-hero-bg img,
-.hero-slider img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
 .hero-slider {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  background: #111;
+  aspect-ratio: 16 / 10;
 }
 .hero-slide {
   position: absolute;
@@ -32,6 +22,13 @@
 }
 .hero-slide.active {
   opacity: 1;
+}
+.hero-slide picture,
+.hero-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .hero-slider-dots {
   position: absolute;
@@ -56,14 +53,20 @@
 .landing-hero-overlay {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 100%);
 }
 .landing-hero-content {
-  position: relative;
+  position: absolute;
   z-index: 2;
   text-align: center;
-  padding: 0 var(--gutter);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
   max-width: 750px;
+  padding: 0 var(--gutter);
+  pointer-events: none;
 }
 .landing-hero-badge {
   display: inline-block;
