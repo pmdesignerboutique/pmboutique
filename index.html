@@ -22,7 +22,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="print" onload="this.media='all'">
   <link rel="preload" as="image" href="images/hero-desktop.jpg" fetchpriority="high">
-  <link rel="stylesheet" href="css/styles.min.css?v=9">
+  <link rel="stylesheet" href="css/styles.min.css?v=10">
   <script src="js/head-integrations.js" defer></script>
 
   <script type="application/ld+json">
@@ -558,7 +558,7 @@
   <script src="js/body-integrations.js"></script>
   <script src="js/footer-integrations.js"></script>
   <script>
-    !function(){var s=document.getElementById('heroSlider'),d=document.getElementById('heroDots'),p=s.querySelectorAll('.hero-slide'),c=0,n=p.length;if(n>1){for(var i=0;i<n;i++){var dot=document.createElement('span');dot.className='dot'+(i===0?' active':'');dot.dataset.index=i;dot.addEventListener('click',function(){go(parseInt(this.dataset.index))});d.appendChild(dot)}function go(i){p[c].classList.remove('active');d.children[c].classList.remove('active');c=i;p[c].classList.add('active');d.children[c].classList.add('active')}setInterval(function(){go((c+1)%n)},3e3)}var h=p[0].querySelector('img');h.complete?s.parentElement.parentElement.classList.add('hero-ready'):h.addEventListener('load',function(){s.parentElement.parentElement.classList.add('hero-ready')})}();
+    !function(){var s=document.getElementById('heroSlider'),d=document.getElementById('heroDots'),p=s.querySelectorAll('.hero-slide'),c=0,n=p.length;if(n>1){for(var i=0;i<n;i++){var dot=document.createElement('span');dot.className='dot'+(i===0?' active':'');dot.dataset.index=i;dot.addEventListener('click',function(){go(parseInt(this.dataset.index))});d.appendChild(dot)}function go(i){p[c].classList.remove('active');d.children[c].classList.remove('active');c=i;p[c].classList.add('active');d.children[c].classList.add('active')}setInterval(function(){go((c+1)%n)},3e3)}var h=p[0].querySelector('img');h.complete?s.parentElement.classList.add('hero-ready'):h.addEventListener('load',function(){s.parentElement.classList.add('hero-ready')})}();
   </script>
 </body>
 </html>
