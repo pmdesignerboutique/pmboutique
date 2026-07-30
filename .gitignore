@@ -1,3 +1,4 @@
 worker/.wrangler/
 lh-report.json
 lighthouse-report.json
+node_modules/
