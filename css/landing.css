@@ -6,6 +6,15 @@
   align-items: center;
   background: #111;
 }
+.landing-hero .landing-hero-content,
+.landing-hero .hero-slider-dots {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.landing-hero.hero-ready .landing-hero-content,
+.landing-hero.hero-ready .hero-slider-dots {
+  opacity: 1;
+}
 .hero-slider {
   position: relative;
   width: 100%;
