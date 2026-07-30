@@ -1206,8 +1206,8 @@ body.preloading {
 .landing-hero-bg img,.hero-slider img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: center top;
 }
 .hero-slider{position:absolute;inset:0}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
