@@ -23,13 +23,11 @@
 // document.head.appendChild(gscMeta);
 
 // --- Google Tag Manager (Head) ---
-// Replace GTM-XXXXXXX with your GTM ID
-// (function(){
-//   var s = document.createElement('script');
-//   s.async = true;
-//   s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-XXXXXXX';
-//   document.head.appendChild(s);
-// })();
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MNNKVS2X');
 
 // --- Facebook Pixel ---
 // Replace XXXXXXXXXXXXXXXX with your Pixel ID

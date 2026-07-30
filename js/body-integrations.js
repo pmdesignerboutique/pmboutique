@@ -4,11 +4,11 @@
 // Paste your codes BELOW this line:
 
 // --- Google Tag Manager (Body noscript) ---
-// Replace GTM-XXXXXXX with your GTM ID
+// Added directly in HTML — not needed here
 // (function(){
 //   var noscript = document.createElement('noscript');
 //   var iframe = document.createElement('iframe');
-//   iframe.src = 'https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX';
+//   iframe.src = 'https://www.googletagmanager.com/ns.html?id=GTM-MNNKVS2X';
 //   iframe.height = '0';
 //   iframe.width = '0';
 //   iframe.style.display = 'none';
