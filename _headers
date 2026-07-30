@@ -4,13 +4,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
 
 /css/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: no-store
 
 /js/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: no-store
 
 /images/*
-  Cache-Control: public, max-age=3600
+  Cache-Control: max-age=3600
 
 /data/*
   Cache-Control: no-store
