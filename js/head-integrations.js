@@ -4,17 +4,16 @@
 // Paste your codes BELOW this line:
 
 // --- Google Analytics 4 ---
-// Uncomment and replace G-XXXXXXXXXX with your GA4 Measurement ID
-// (function(){
-//   var s = document.createElement('script');
-//   s.async = true;
-//   s.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX';
-//   document.head.appendChild(s);
-//   window.dataLayer = window.dataLayer || [];
-//   function gtag(){dataLayer.push(arguments);}
-//   gtag('js', new Date());
-//   gtag('config', 'G-XXXXXXXXXX');
-// })();
+(function(){
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Z1V88057Q6';
+  document.head.appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Z1V88057Q6');
+})();
 
 // --- Google Search Console Verification ---
 // Replace googleXXXXXXXXXX.html with your actual verification filename
