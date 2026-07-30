@@ -1101,7 +1101,7 @@ body.preloading {
 
 @media (max-width: 768px) {
   .video-hero {
-    min-height: 85vh;
+    ;
   }
   .video-hero-actions {
     flex-direction: column;
@@ -1190,11 +1190,11 @@ body.preloading {
   line-height: 1.7;
 }
 /* Landing Hero */
-.landing-hero{position:relative;display:flex;flex-direction:column;align-items:center;background:#111}.landing-hero .landing-hero-content,.landing-hero .hero-slider-dots{opacity:0;transition:opacity .5s ease}.landing-hero.hero-ready .landing-hero-content,.landing-hero.hero-ready .hero-slider-dots{opacity:1}
-.hero-slider{position:relative;width:100%;margin:0 auto;background:#111;aspect-ratio:16/10}
-.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease}
-.hero-slide.active{opacity:1}
-.hero-slide picture,.hero-slide img{display:block;width:100%;height:100%;object-fit:cover}
+.landing-hero{position:relative;background:#111}.landing-hero .landing-hero-content,.landing-hero .hero-slider-dots{opacity:0;transition:opacity .5s ease}.landing-hero.hero-ready .landing-hero-content,.landing-hero.hero-ready .hero-slider-dots{opacity:1}
+.hero-slider{position:relative;width:100%;background:#111}
+.hero-slide{display:none}
+.hero-slide.active{display:block;animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.hero-slide img{display:block;width:100%;height:auto}
 .hero-slider-dots{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:3;display:flex;gap:10px}
 .hero-slider-dots .dot{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.4);cursor:pointer;transition:background .3s}
 .hero-slider-dots .dot.active{background:#fff}
@@ -1768,7 +1768,7 @@ body.preloading {
 @media (max-width: 768px) {
   .landing-hero { min-height: 85vh; }
   .landing-hero-actions { flex-direction: column; }
-  .landing-hero-content { padding-top: 80px; }
+  .landing-hero-content { padding-top:0 }
   .landing-intro-images { height: 320px; }
   .landing-services-grid { grid-template-columns: 1fr; }
   .embroidery-play-btn { width: 64px; height: 64px; }
@@ -1781,7 +1781,7 @@ body.preloading {
   .landing-cta { padding: 64px 0; }
 }
 @media (max-width: 480px) {
-  .landing-hero-content { padding-top: 70px; }
+  .landing-hero-content { padding-top:0 }
   .landing-intro-images { height: 260px; }
   .landing-intro-year { width: 72px; height: 72px; }
   .landing-intro-year-num { font-size: 24px; }
